@@ -1,0 +1,74 @@
+{% extends 'chat/base.html' %}
+{% block content %}
+
+<div class="card">
+  <div class="card-head">
+    <div class="inline" style="flex-wrap: wrap;">
+      <strong>Room</strong>
+      <span class="tag">{{ room.code }}</span>
+      <span class="pill">Expires after {{ expiry_minutes }} min idle</span>
+      
+  <span class="tag" id="expiryCountdown">Calculating…</span>
+    </div>
+    <div class="inline">
+      <button class="btn secondary" onclick="navigator.clipboard.writeText(window.location.href).then(()=>{this.textContent='Copied!'; setTimeout(()=>this.textContent='Copy Link',1200)})">Copy Link</button>
+      <a class="btn" href="/">New Room</a>
+    </div>
+  </div>
+
+  <div id="messages" class="messages"></div>
+
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <label>Text message</label>
+        <form id="textForm" class="stack">
+          <input name="nickname" placeholder="nickname (optional)" maxlength="24">
+          <textarea name="content" rows="2" placeholder="Type a message..."></textarea>
+          <div class="inline">
+            <button class="btn" type="submit">Send Text</button>
+            <span class="hint" id="textHint"></span>
+          </div>
+        </form>
+      </div>
+
+      <div class="col">
+        <label>Code snippet</label>
+        <form id="codeForm" class="stack">
+          <div class="inline" style="width:100%">
+            <input name="nickname" placeholder="nickname (optional)" maxlength="24" style="flex:1">
+            <input name="language" placeholder="lang (e.g. python, js)" maxlength="24" style="max-width:180px">
+          </div>
+          <textarea name="content" rows="6" placeholder="Paste code here"></textarea>
+          <div class="inline">
+            <button class="btn" type="submit">Send Code</button>
+            <span class="hint" id="codeHint"></span>
+          </div>
+        </form>
+      </div>
+
+      <div class="col">
+        <label>Image</label>
+        <form id="imageForm" class="stack" enctype="multipart/form-data">
+          <input name="nickname" placeholder="nickname (optional)" maxlength="24">
+          <input class="file" type="file" name="image" accept="image/*">
+          <div class="inline">
+            <button class="btn" type="submit">Send Image</button>
+            <span class="hint" id="imageHint">JPEG, PNG, GIF, WebP</span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  window.CHAT_CONFIG = {
+    roomCode: "{{ room.code }}",
+    messagesUrl: "{% url 'api_messages' room.code %}",
+    sendTextUrl: "{% url 'send_text' room.code %}",
+    sendCodeUrl: "{% url 'send_code' room.code %}",
+    sendImageUrl: "{% url 'send_image' room.code %}"
+  }
+</script>
+{% endblock %}

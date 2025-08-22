@@ -1,0 +1,32 @@
+{% extends 'chat/base.html' %}
+{% block content %}
+<div class="grid">
+  <div class="card">
+    <div class="card-head">
+      <div class="inline">
+        <span class="tag">2 hours</span>
+        <strong>Create an ephemeral room</strong>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="muted">Share the room URL with classmates. Messages and images are erased after 2 hours of inactivity.</p>
+      <form method="post" action="/create/" class="inline" style="gap:12px; margin-top: 8px;">
+        {% csrf_token %}
+        <button class="btn" type="submit">Create Room</button>
+        <span class="hint">No login required</span>
+      </form>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><strong>How it works</strong></div>
+    <div class="card-body">
+      <div class="stack">
+        <div class="pill">Anonymous link-based room</div>
+        <div class="pill">Share text, code, and images</div>
+        <div class="pill">Auto‑deletes after 2 hours idle</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
